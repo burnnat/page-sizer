@@ -1,0 +1,141 @@
+<!-- Use a templated HTML printing scriptlet to import common stylesheet -->
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+
+<style>
+label {
+  font-weight: bold;
+}
+
+button {
+  min-width: 100px;
+}
+
+.width-100 {
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing : border-box;‌
+  -moz-box-sizing : border-box;
+}
+
+.table-label {
+  font-weight: bold;
+  width: 25%
+}
+
+.branding-below {
+  bottom: 54px;
+  top: 0;
+}
+
+.branding-text {
+  left: 7px;
+  position: relative;
+  top: 3px;
+}
+
+.logo {
+  vertical-align: middle;
+}
+
+#dialog-elements {
+  background-color: #eee;
+  border-color: #eee;
+  border-width: 5px;
+  border-style: solid;
+}
+
+#sidebar-button-bar,
+#dialog-button-bar,
+#dialog-elements {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+</style>
+
+<!-- Below is the HTML code that defines the dialog element structure. -->
+<form id="title-form">
+  <div class="block" id="dialog-elements">
+    <label for="dialog-title">
+      You can set the document title here:
+    </label>
+    <input class="width-100" id="dialog-title">
+  </div>
+  <div class="block" id="dialog-button-bar">
+    <button type="submit" class="action" id="dialog-save-button">Save</button>
+    <button id="dialog-cancel-button" onclick="google.script.host.close()">Cancel</button>
+  </div>
+  <div id="dialog-status"></div>
+</form>
+
+<!-- Use a templated HTML printing scriptlet to import JavaScript -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  /**
+   * Run initializations on dialog load.
+   */
+  $(function() {
+    // Assign handler functions to dialog elements here, if needed.
+    $('#title-form').submit(onTitleSave);
+
+    // Call the server here to retrieve any information needed to build
+    // the dialog, if necessary.
+    google.script.run
+       .withSuccessHandler(function(title) {
+            // Respond to success conditions here.
+            $('#dialog-title').val(title);
+            showStatus('Ready.');
+          })
+       .withFailureHandler(function(msg) {
+            // Respond to failure conditions here.
+            showStatus('Error retrieving title: ' + msg, 'error');
+          })
+       .getDocTitle();
+
+  });
+
+  /**
+   * Calls the server to modify the document.
+   * Changes the document title to match the dialog text.
+   */
+  function onTitleSave() {
+    this.disabled = true;
+    showStatus('Saving...');
+
+    // Gather any information that needs to be sent to the server here.
+    var title = $('#dialog-title').val();
+
+    // Send the value to the server and handle the response.
+    google.script.run
+        .withSuccessHandler(
+          function(msg, element) {
+            // Respond to success conditions here.
+            showStatus('Document title saved.');
+            element.disabled = false;
+          })
+        .withFailureHandler(
+          function(msg, element) {
+            // Respond to failure conditions here.
+            showStatus('Could not save title: ' + msg, 'error');
+            element.disabled = false;
+          })
+        .withUserObject(this)
+        .setDocTitle(title);
+    return false;
+  }
+
+  /**
+   * Displays the given status message in the dialog.
+   *
+   * @param {String} msg The status message to display.
+   * @param {String} classId The message type (class id) that the message
+   *   should be displayed as.
+   */
+  function showStatus(msg, classId) {
+    $('#dialog-status').removeClass().html(msg);
+    if (classId) {
+      $('#dialog-status').addClass(classId);
+    }
+  }
+
+</script>

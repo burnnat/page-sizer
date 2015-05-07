@@ -1,0 +1,3 @@
+Page Sizer is a utility allowing you to specify custom page sizes in Google Docs. Sizes may be specified in points, inches, or millimeters.
+
+Page Sizer is an open-source project. View code and submit issues at: https://github.com/burnnat/page-sizer

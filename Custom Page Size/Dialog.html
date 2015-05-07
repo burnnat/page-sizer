@@ -11,7 +11,7 @@
   }
 
   input[type="text"] {
-    width: 55px;
+    width: 70px;
     margin: 4px 0;
   }
 
@@ -22,7 +22,7 @@
   }
 
   .content-left {
-    padding-right: 48px;
+    padding-right: 35px;
   }
 
   .section-title {
@@ -46,7 +46,7 @@
               <label class="dimension-label" for="width-input">Width</label>
             </td>
             <td>
-              <input type="text" id="width-input" />
+              <input type="text" id="width-input" disabled />
             </td>
           </tr>
           <tr>
@@ -54,7 +54,7 @@
               <label class="dimension-label" for="height-input">Height</label>
             </td>
             <td>
-              <input type="text" id="height-input" />
+              <input type="text" id="height-input" disabled />
             </td>
           </tr>
         </tbody>
@@ -71,7 +71,7 @@
     </div>
   </div>
   <div class="block">
-    <button type="submit" class="action">Save</button>
+    <button type="submit" class="action" disabled>Save</button>
     <button id="dialog-cancel-button" onclick="google.script.host.close()">Cancel</button>
   </div>
 </form>
@@ -100,6 +100,7 @@
     google.script.run
       .withSuccessHandler(function(dimensions) {
         updateDimensions(dimensions, currentUnits());
+        setDisabled(false);
       })
       .getDimensions();
   });
@@ -110,11 +111,17 @@
   }
 
   function onSave() {
+    setDisabled(true);
+
     google.script.run
       .withSuccessHandler(function() {
         google.script.host.close();
       })
       .setDimensions(parseDimensions(currentUnits()));
+  }
+
+  function setDisabled(disabled) {
+    $('input, button.action').prop('disabled', disabled);
   }
 
   function currentUnits() {

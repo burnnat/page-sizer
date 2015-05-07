@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "gaps download 1p2VtKh2dBNIw1S5fhDqEKKp2ImFe_otCTyqkNWV2gV7MxB5g1DV7iJXc",
-    "push": "cd 'Custom Page Size' && gaps upload"
+    "push": "cd 'Custom Page Size' && gaps upload",
+    "lint": "eslint 'Custom Page Size'"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/burnnat/custom-page-size",
   "devDependencies": {
+    "eslint": "^0.20.0",
     "node-google-apps-script": "^0.1.2"
   }
 }

@@ -1,5 +1,14 @@
 {
+  "plugins": [
+    "html"
+  ],
+
+  "env": {
+    "jquery": true
+  },
+
   "globals": {
+    "google": false,
     "DocumentApp": false,
     "HtmlService": false
   },
@@ -7,8 +16,9 @@
   "rules": {
     "no-param-reassign": 2,
     "no-unused-vars": [2, { "vars": "local" }],
+    "no-use-before-define": [2, "nofunc"],
 
-    "brace-style": [2, "stroustrup"],
+    "brace-style": [1, "stroustrup"],
     "indent": [1, 2],
     "quotes": [1, "single"],
     "wrap-iife": [1, "inside"],

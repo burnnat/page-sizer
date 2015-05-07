@@ -1,4 +1,4 @@
-function onOpen(e) {
+function onOpen() {
   DocumentApp.getUi()
       .createAddonMenu()
       .addItem('Set page size...', 'showDialog')
@@ -16,13 +16,13 @@ function showDialog() {
       .setWidth(250)
       .setHeight(145)
   );
-  
+
   DocumentApp.getUi().showModalDialog(dialog, 'Custom page size');
 }
 
 function getDimensions() {
   var body = DocumentApp.getActiveDocument().getBody();
-  
+
   return {
     height: body.getPageHeight(),
     width: body.getPageWidth()
@@ -31,7 +31,7 @@ function getDimensions() {
 
 function setDimensions(dimensions) {
   var body = DocumentApp.getActiveDocument().getBody();
-  
+
   body.setPageHeight(dimensions.height);
   body.setPageWidth(dimensions.width);
 }

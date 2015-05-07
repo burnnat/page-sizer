@@ -14,21 +14,21 @@
     width: 55px;
     margin: 4px 0;
   }
-  
+
   .inline-block {
     display: inline-block;
     vertical-align: top;
     padding-bottom: 5px;
   }
-  
+
   .content-left {
     padding-right: 48px;
   }
-  
+
   .section-title {
     font-weight: bold;
   }
-  
+
   .dimension-label {
     padding-right: 5px;
   }
@@ -81,22 +81,22 @@
 <script>
   $(function() {
     $('#page-size-form').submit(onSave);
-    
+
     var input = $('#units-input');
-    
+
     input.data('prev', input.val());
     input.on(
       'change',
       function() {
         var me = $(this);
         var current = me.val();
-        
+
         onUnitsChange(me.data('prev'), current);
-        
+
         me.data('prev', current);
       }
     );
-    
+
     google.script.run
       .withSuccessHandler(function(dimensions) {
         updateDimensions(dimensions, currentUnits());
@@ -116,27 +116,27 @@
       })
       .setDimensions(parseDimensions(currentUnits()));
   }
-  
+
   function currentUnits() {
     return $('#units-input').val();
   }
-  
+
   function parseDimensions(units) {
     var dimensions = {
       width: $('#width-input').val(),
       height: $('#height-input').val()
     };
-    
+
     for (var axis in dimensions) {
       dimensions[axis] = parseDimension(dimensions[axis], units);
     }
-    
+
     return dimensions;
   }
-  
+
   function parseDimension(raw, units) {
     var value = parseFloat(raw);
-    
+
     switch (units) {
       case 'in':
         return value * 72;
@@ -144,16 +144,16 @@
         return value;
     }
   }
-  
+
   function updateDimensions(dimensions, units) {
     for (var axis in dimensions) {
       $('#' + axis + '-input').val(convertDimension(dimensions[axis], units));
     }
   }
-  
+
   function convertDimension(points, units) {
     var value = parseFloat(points);
-    
+
     switch (units) {
       case 'in':
         return value / 72;

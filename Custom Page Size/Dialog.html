@@ -65,8 +65,8 @@
         <label for="units-input">Units</label>
       </div>
       <select id="units-input">
-        <option>Inches</option>
-        <option>Points</option>
+        <option value="in">Inches</option>
+        <option value="pt">Points</option>
       </select>
     </div>
   </div>
@@ -80,11 +80,85 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
   $(function() {
-    // Assign handler functions to dialog elements here, if needed.
     $('#page-size-form').submit(onSave);
+    
+    var input = $('#units-input');
+    
+    input.data('prev', input.val());
+    input.on(
+      'change',
+      function() {
+        var me = $(this);
+        var current = me.val();
+        
+        onUnitsChange(me.data('prev'), current);
+        
+        me.data('prev', current);
+      }
+    );
+    
+    google.script.run
+      .withSuccessHandler(function(dimensions) {
+        updateDimensions(dimensions, currentUnits());
+      })
+      .getDimensions();
   });
 
+  function onUnitsChange(prev, current) {
+    var dimensions = parseDimensions(prev);
+    updateDimensions(dimensions, current);
+  }
+
   function onSave() {
-    // Nothing yet...
+    google.script.run
+      .withSuccessHandler(function() {
+        google.script.host.close();
+      })
+      .setDimensions(parseDimensions(currentUnits()));
+  }
+  
+  function currentUnits() {
+    return $('#units-input').val();
+  }
+  
+  function parseDimensions(units) {
+    var dimensions = {
+      width: $('#width-input').val(),
+      height: $('#height-input').val()
+    };
+    
+    for (var axis in dimensions) {
+      dimensions[axis] = parseDimension(dimensions[axis], units);
+    }
+    
+    return dimensions;
+  }
+  
+  function parseDimension(raw, units) {
+    var value = parseFloat(raw);
+    
+    switch (units) {
+      case 'in':
+        return value * 72;
+      default:
+        return value;
+    }
+  }
+  
+  function updateDimensions(dimensions, units) {
+    for (var axis in dimensions) {
+      $('#' + axis + '-input').val(convertDimension(dimensions[axis], units));
+    }
+  }
+  
+  function convertDimension(points, units) {
+    var value = parseFloat(points);
+    
+    switch (units) {
+      case 'in':
+        return value / 72;
+      default:
+        return value;
+    }
   }
 </script>

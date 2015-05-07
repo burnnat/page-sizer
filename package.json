@@ -1,24 +1,24 @@
 {
-  "name": "custom-page-size",
+  "name": "page-sizer",
   "version": "0.0.1",
   "description": "Google Docs add-on to to specify custom page sizes.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "gaps download 1p2VtKh2dBNIw1S5fhDqEKKp2ImFe_otCTyqkNWV2gV7MxB5g1DV7iJXc",
-    "push": "cd 'Custom Page Size' && gaps upload",
-    "lint": "eslint 'Custom Page Size' --ext .js,.html"
+    "push": "cd 'Page Sizer' && gaps upload",
+    "lint": "eslint 'Page Sizer' --ext .js,.html"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/burnnat/custom-page-size.git"
+    "url": "https://github.com/burnnat/page-sizer.git"
   },
   "author": "Nat Burns <nbaccount@burnskids.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/burnnat/custom-page-size/issues"
+    "url": "https://github.com/burnnat/page-sizer/issues"
   },
-  "homepage": "https://github.com/burnnat/custom-page-size",
+  "homepage": "https://github.com/burnnat/page-sizer",
   "devDependencies": {
     "eslint": "^0.20.0",
     "eslint-plugin-html": "^1.0.0",

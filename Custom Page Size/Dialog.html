@@ -66,6 +66,7 @@
       </div>
       <select id="units-input">
         <option value="in">Inches</option>
+        <option value="mm">Millimeters</option>
         <option value="pt">Points</option>
       </select>
     </div>
@@ -147,6 +148,8 @@
     switch (units) {
       case 'in':
         return value * 72;
+      case 'mm':
+        return value * 72 / 25.4;
       default:
         return value;
     }
@@ -164,6 +167,8 @@
     switch (units) {
       case 'in':
         return value / 72;
+      case 'mm':
+        return value / 72 * 25.4;
       default:
         return value;
     }

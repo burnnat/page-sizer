@@ -113,7 +113,7 @@
 
   function onSave() {
     setDisabled(true);
-
+  
     google.script.run
       .withSuccessHandler(function() {
         google.script.host.close();
@@ -124,7 +124,7 @@
   function setDisabled(disabled) {
     $('input, button.action').prop('disabled', disabled);
   }
-
+  
   function currentUnits() {
     return $('#units-input').val();
   }

@@ -73,7 +73,7 @@
   </div>
   <div class="block">
     <button type="submit" class="action" disabled>Save</button>
-    <button id="dialog-cancel-button" onclick="google.script.host.close()">Cancel</button>
+    <button id="dialog-cancel-button">Cancel</button>
   </div>
 </form>
 
@@ -82,21 +82,33 @@
 <script>
   $(function() {
     $('#page-size-form').submit(onSave);
+    $('#dialog-cancel-button').click(onCancel);
 
-    var input = $('#units-input');
+    var units = $('#units-input');
 
-    input.data('prev', input.val());
-    input.on(
-      'change',
-      function() {
-        var me = $(this);
-        var current = me.val();
+    units
+      .data('prev', units.val())
+      .on(
+        'change',
+        function() {
+          var me = $(this);
+          var current = me.val();
 
-        onUnitsChange(me.data('prev'), current);
+          onUnitsChange(me.data('prev'), current);
 
-        me.data('prev', current);
-      }
-    );
+          me.data('prev', current);
+        }
+      );
+
+    $('input')
+      .on(
+        'keyup',
+        function() {
+          var value = $(this).val();
+          var valid = $.isNumeric(value) && parseFloat(value) >= 0;
+          $('button.action').prop('disabled', !valid);
+        }
+      );
 
     google.script.run
       .withSuccessHandler(function(dimensions) {
@@ -113,7 +125,8 @@
 
   function onSave() {
     setDisabled(true);
-  
+    $('button.action').text('Saving...');
+
     google.script.run
       .withSuccessHandler(function() {
         google.script.host.close();
@@ -121,10 +134,15 @@
       .setDimensions(parseDimensions(currentUnits()));
   }
 
+  function onCancel(event) {
+    event.preventDefault();
+    google.script.host.close();
+  }
+
   function setDisabled(disabled) {
     $('input, button.action').prop('disabled', disabled);
   }
-  
+
   function currentUnits() {
     return $('#units-input').val();
   }

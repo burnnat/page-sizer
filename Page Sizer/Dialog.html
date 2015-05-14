@@ -10,7 +10,7 @@
     border-bottom: 0;
   }
 
-  input[type="text"] {
+  input[type="number"] {
     width: 70px;
     margin: 4px 0;
   }
@@ -46,7 +46,14 @@
               <label class="dimension-label" for="width-input">Width</label>
             </td>
             <td>
-              <input type="text" id="width-input" disabled />
+              <input
+                type="number"
+                id="width-input"
+                min="0"
+                max="120"
+                step="any"
+                required
+                disabled />
             </td>
           </tr>
           <tr>
@@ -54,7 +61,14 @@
               <label class="dimension-label" for="height-input">Height</label>
             </td>
             <td>
-              <input type="text" id="height-input" disabled />
+              <input
+                type="number"
+                id="height-input"
+                min="0"
+                max="120"
+                step="any"
+                required
+                disabled />
             </td>
           </tr>
         </tbody>
@@ -72,7 +86,7 @@
     </div>
   </div>
   <div class="block">
-    <button type="submit" class="action" disabled>Save</button>
+    <button type="submit" class="action" disabled>Apply</button>
     <button id="dialog-cancel-button">Cancel</button>
   </div>
 </form>
@@ -100,16 +114,6 @@
         }
       );
 
-    $('input')
-      .on(
-        'keyup',
-        function() {
-          var value = $(this).val();
-          var valid = $.isNumeric(value) && parseFloat(value) >= 0;
-          $('button.action').prop('disabled', !valid);
-        }
-      );
-
     google.script.run
       .withSuccessHandler(function(dimensions) {
         updateDimensions(dimensions, currentUnits());
@@ -125,7 +129,7 @@
 
   function onSave() {
     setDisabled(true);
-    $('button.action').text('Saving...');
+    $('button.action').text('Applying...');
 
     google.script.run
       .withSuccessHandler(function() {

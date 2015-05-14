@@ -50,7 +50,6 @@
                 type="number"
                 id="width-input"
                 min="0"
-                max="120"
                 step="any"
                 required
                 disabled />
@@ -65,7 +64,6 @@
                 type="number"
                 id="height-input"
                 min="0"
-                max="120"
                 step="any"
                 required
                 disabled />
@@ -94,6 +92,11 @@
 <!-- Scripts -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
+  // The maximum size of 8640 points in either direction is equal to 120 inches (10 feet),
+  // which is greater than the maximum size ranges for both Microsoft Word (22 inches) and
+  // OpenOffice/LibreOffice Writer (3 meters).
+  var MAX_SIZE = 8640;
+
   $(function() {
     $('#page-size-form').submit(onSave);
     $('#dialog-cancel-button').click(onCancel);
@@ -179,7 +182,9 @@
 
   function updateDimensions(dimensions, units) {
     for (var axis in dimensions) {
-      $('#' + axis + '-input').val(convertDimension(dimensions[axis], units));
+      $('#' + axis + '-input')
+        .attr('max', convertDimension(MAX_SIZE, units))
+        .val(convertDimension(dimensions[axis], units));
     }
   }
 

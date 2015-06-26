@@ -13,8 +13,9 @@ function showDialog() {
   var dialog = (
     HtmlService.createTemplateFromFile('Dialog')
       .evaluate()
-      .setWidth(250)
-      .setHeight(145)
+      .setWidth(280)
+      .setHeight(160)
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
   );
 
   DocumentApp.getUi().showModalDialog(dialog, 'Custom page size');

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/burnnat/page-sizer",
   "devDependencies": {
-    "eslint": "^0.20.0",
+    "eslint": "^6.5.1",
     "eslint-plugin-html": "^1.0.0",
     "node-google-apps-script": "^0.1.2"
   }
